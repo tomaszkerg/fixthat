@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<ul th:fragment="pagemenu">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">FixThat</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" href="/messages">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Wiadomości</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Zlecenia
+    </div>
+
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link" href="/orders">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Wszystkie zlecenia</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="/myorders">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Moje zlecenia</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/finished">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Zlecenia w trakcie naprawy</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" href="/mypropositions">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Moje propozycje</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" href="/details">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Moje konto</span></a>
+    </li>
+
+</ul>
+</body>
+</html>

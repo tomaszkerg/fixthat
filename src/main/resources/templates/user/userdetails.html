@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>FixThat</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/fixthat.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul th:include="fragments/menu :: pagemenu" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+        id="accordionSidebar">
+
+    </ul>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:include="fragments/topbar :: topbar"
+                 class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            </nav>
+
+            <div class="container-fluid">
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Moje konto</h1>
+                </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <div>
+                        <h4>Szczegóły konta</h4>
+                        </div>
+                    <div>
+                        <a th:href="@{/editdetails}" class="btn-right d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Edytuj Dane</a>
+                </div>
+                    </div>
+                    <div class="card-body">
+                        <div th:object="${userDetails}">
+                            Imię: <b th:text="*{firstName}"></b><br>
+                            Nazwisko: <b th:text="*{lastName}"></b><br>
+                            Miasto: <b th:text="*{city}"></b><br>
+                            Adres: <b th:text="*{address}"></b><br>
+                            News Letter: <b th:text="*{newsLetter}"></b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h4>Dane Logowania</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul th:object="${userDto}" class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    Nazwa uzytkownika: <b th:text="*{username}"></b>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                Email: <b th:text="*{email}"></b>
+                            </div>
+                                <div class="align-items-center">
+                                    <form th:action="@{/editemail}" method="post" style="visibility: hidden">
+                                        <input type="email" th:field="*{email}" required="" class="form-control form-control-user" id="email" placeholder="Email Address">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Edit</button>
+                                    </form>
+                                    <button class="cancele btn btn-danger d-sm-inline-block" style="visibility: hidden">Anuluj</button>
+                                <button class="showw btn-right d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Edytuj Email</button>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                Hasło: <b>********</b>
+                                </div>
+                                <div>
+                                    <form th:action="@{/editpassword}" method="post" style="visibility: hidden">
+                                        <input type="password" th:field="*{password}" required="" class="form-control form-control-user" placeholder="new Password">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Edit</button>
+                                    </form>
+                                    <button class="cancele btn btn-danger d-sm-inline-block" style="visibility: hidden">Anuluj</button>
+                                <button class="showw btn-right d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Edytuj Hasło</button>
+                                </div>
+                            </li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<footer class="sticky-footer bg-light-red" th:include="fragments/footer :: pagefooter"></footer>
+
+
+<script src="/js/userdetails.js"></script>
+</body>
+
+</html>

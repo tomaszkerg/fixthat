@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>FixThat</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/fixthat.css" rel="stylesheet">
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul th:include="fragments/menu :: pagemenu" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+        id="accordionSidebar">
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:include="fragments/topbar :: topbar"
+                 class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div><input type="hidden" name="sort" value="ASC"></div>
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Wszystkie zlecenia</h1>
+                    <a href="/addorder" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Dodaj
+                        Zlecenie</a>
+                </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Lista Zleceń</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="emp-table" class="table table-bordered" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th data-sort-prop="device">Urządzenie</th>
+                                    <th data-sort-prop="name">Nazwa zlecenia</th>
+                                    <th data-sort-prop="description">Opis</th>
+                                    <th data-sort-prop="postTime">Data Wstawienia</th>
+                                    <td>Akcja</td>
+                                </tr>
+                                </thead>
+                                <tr th:each="order : ${page.content}">
+                                    <td th:text="*{order.device}"></td>
+                                    <td th:text="*{order.name}"></td>
+                                    <td th:text="*{order.description}"></td>
+                                    <td th:text="*{order.postTime}"></td>
+                                    <td>
+                                        <a th:href="@{|/orders/${order.id}/add|}"
+                                           class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Propozycja</a>
+                                        <a th:href="@{|/orders/${order.id}|}"
+                                           class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">Pokaż</a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="pagination-div"
+                                 th:with="sortParam=${sortProperty+','+(sortDesc?'desc':'asc')}"><span
+                                    th:if="${page.hasPrevious()}"><a
+                                    th:href="@{/orders(page=${page.number-1},size=${page.size},sort=${sortParam})}">Previous</a></span>
+                                <th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
+                                    <span th:if="${page.number == i}" class="selected">[[${i}+1]]</span>
+                                    <span th:unless="${page.number == i}"><a
+                                            th:href="@{/orders(page=${i},size=${page.size},sort=${sortParam})}">[[${i}+1]]</a></span>
+                                </th:block>
+                                <span th:if="${page.hasNext()}"><a
+                                        th:href="@{/orders(page=${page.number+1},size=${page.size},sort=${sortParam})}">Next</a></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+    </div>
+</div>
+<!-- End of Main Content -->
+
+<!-- Footer -->
+<footer class="sticky-footer bg-light-red" th:include="fragments/footer :: pagefooter"></footer>
+<!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/js/demo/datatables-demo.js"></script>
+
+<script th:inline="javascript">
+    //thymeleaf to javascript variables
+    /*<![CDATA[*/
+    let sortProperty = /*[[${sortProperty}]]*/ null;
+    let sortDesc = /*[[${sortDesc}]]*/ null;
+    let currentPage = /*[[${page.number}]]*/ 0;
+    let pageSize =/*[[${page.size}]]*/ 0;
+    /*]]>*/
+
+    $(document).ready(function () {
+        //show up/down arrows
+        $("table#emp-table thead th").each(function () {
+            let head = $(this);
+            if (head.attr('data-sort-prop') == sortProperty) {
+                head.append(sortDesc ? '▾' : '▴');
+            }
+        });
+
+        //set click action, reload page on clicking with all query params
+        $("table#emp-table thead th").click(function () {
+            let headerSortPropName = $(this).attr("data-sort-prop");
+            if (headerSortPropName == sortProperty) {
+                window.location.href = window.location.pathname +
+                    '?page=' + currentPage + '&size=' + pageSize + '&sort=' + headerSortPropName + ',' +
+                    (sortDesc ? 'asc' : 'desc');
+            } else {
+                window.location.href = window.location.pathname +
+                    '?page=' + currentPage + '&size=' + pageSize + '&sort=' + headerSortPropName + ',asc';
+            }
+        });
+    });
+</script>
+</body>
+
+</html>
