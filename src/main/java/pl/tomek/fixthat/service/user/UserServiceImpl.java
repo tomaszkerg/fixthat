@@ -7,14 +7,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.tomek.fixthat.dto.user.UserDto;
 
-import pl.tomek.fixthat.entity.user.PasswordResetToken;
+
 import pl.tomek.fixthat.entity.user.User;
 import pl.tomek.fixthat.entity.user.UserDetails;
 import pl.tomek.fixthat.entity.user.UserRole;
 import pl.tomek.fixthat.exception.DuplicateEmailException;
 import pl.tomek.fixthat.exception.DuplicateUsernameException;
 import pl.tomek.fixthat.mapper.UserMapper;
-import pl.tomek.fixthat.repository.PasswordTokenRepository;
+
 import pl.tomek.fixthat.repository.UserDetailsRepository;
 import pl.tomek.fixthat.repository.UserRepository;
 
@@ -32,18 +32,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserDetailsRepository userDetailsRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PasswordTokenRepository passwordTokenRepository;
     private java.util.Set<UserRole> Set;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            UserDetailsRepository userDetailsRepository,
-                           PasswordEncoder passwordEncoder,
-                           PasswordTokenRepository passwordTokenRepository) {
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userDetailsRepository = userDetailsRepository;
         this.passwordEncoder = passwordEncoder;
-        this.passwordTokenRepository = passwordTokenRepository;
     }
 
     @Override
@@ -151,11 +148,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public void createPasswordResetTokenForUser(User user, String token) {
-        PasswordResetToken myToken = new PasswordResetToken(token, user);
-        passwordTokenRepository.save(myToken);
-    }
 
 
 

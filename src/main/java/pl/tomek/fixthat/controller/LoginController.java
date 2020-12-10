@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.tomek.fixthat.service.user.UserService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/login")
 public class LoginController {
 
     private UserService userService;

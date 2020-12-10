@@ -24,6 +24,5 @@ public interface UserService {
 
     void updateEmail(String email);
     void updatePassword(String password);
-    void createPasswordResetTokenForUser(User user, String token);
 
 }

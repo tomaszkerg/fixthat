@@ -67,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .disable()
                 .oauth2Login()
-                .loginPage("/login")
+                .loginPage("/")
                 .defaultSuccessUrl("/orders", true)
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService());
