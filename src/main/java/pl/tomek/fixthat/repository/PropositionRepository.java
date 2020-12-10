@@ -14,8 +14,9 @@ public interface PropositionRepository extends JpaRepository<Proposition, Long> 
     List<Proposition> findAllByOrder_Id(Long id);
 
     Optional<Proposition> getFirstByOrderIdAndUserEmail(Long id, String email);
-    List<Proposition> findAllByUserUsername(String username);
+    List<Proposition> findAllByUserUsernameAndActiveTrue(String username);
 
     Proposition getFirstByOrder(Order order);
+    List<Proposition> getFirstByUserUsernameAndActiveFalse(String username);
 
 }

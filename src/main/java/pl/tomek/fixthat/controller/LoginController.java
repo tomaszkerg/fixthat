@@ -20,7 +20,7 @@ public class LoginController {
 
     @GetMapping("")
     public String loginPage(Model model){
-        return "index";
+        return "user/login";
     }
 
 }

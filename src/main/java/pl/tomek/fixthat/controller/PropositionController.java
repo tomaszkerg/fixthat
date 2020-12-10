@@ -77,7 +77,7 @@ public class PropositionController {
     @PostMapping("/propositions/choose")
     public String chooseProposition(@RequestParam(name = "pId") Long id){
         propositionService.choosePropositionForOrder(id);
-        return "order/finishedOrders";
+        return "redirect:/finished";
     }
 
     @GetMapping("/mypropositions/remove")

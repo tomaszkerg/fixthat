@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     @Override
     public void saveDetails(UserDetailsDto userDetailsDto) {
         String username = ContextService.getUsername();
-        log.info("edycja szczegółów dla uzytkownika {}",username);
+        log.debug("edycja szczegółów dla uzytkownika {}",username);
         UserDetails details = UserDetailsMapper.toEntity(userDetailsDto);
         details.setUser(userRepository.getByUsername(username));
         userDetailsRepository.save(details);

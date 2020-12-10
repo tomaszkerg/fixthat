@@ -14,6 +14,7 @@ public class UserDetailsMapper {
         userDetails.setFirstName(userDetailsDto.getFirstName());
         userDetails.setLastName(userDetailsDto.getLastName());
         userDetails.setId(userDetailsDto.getId());
+        userDetails.setPesel(userDetailsDto.getPesel());
         return userDetails;
     }
 
@@ -25,6 +26,7 @@ public class UserDetailsMapper {
         userDetailsDto.setFirstName(userDetails.getFirstName());
         userDetailsDto.setLastName(userDetails.getLastName());
         userDetailsDto.setId(userDetails.getId());
+        userDetailsDto.setPesel(userDetails.getPesel());
         return userDetailsDto;
     }
 }

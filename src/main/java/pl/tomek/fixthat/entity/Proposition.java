@@ -20,6 +20,8 @@ public class Proposition implements EntityModel{
 
     private Double price;
 
+    private boolean active;
+
     @OneToOne
     private User user;
 

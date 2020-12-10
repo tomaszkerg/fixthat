@@ -122,6 +122,17 @@ public class OrderServiceImpl implements OrderService{
         }).isActive();
     }
 
+    @Override
+    public List<FinishedOrderDto> inRepairOrders() {
+        String username = ContextService.getUsername();
+        List<Proposition> propositions = propositionRepository.getFirstByUserUsernameAndActiveFalse(username);
+        return propositions.stream()
+                .map(p -> {
+                    Order order = orderRepository.getOne(p.getOrder().getId());
+                    return FinishedOrderMapper.toDto(order,p);
+                }).collect(Collectors.toList());
+    }
+
 
     @Override
     public List<OrderShowAllDto> findAllOrdersForUser(String username) {
@@ -148,7 +159,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List<OrderShowAllDto> findAllOrdersForUserProposition() {
-        List<Proposition> propositions = propositionRepository.findAllByUserUsername(ContextService.getUsername());
+        List<Proposition> propositions = propositionRepository.findAllByUserUsernameAndActiveTrue(ContextService.getUsername());
         List<Order> orders = new ArrayList<>();
         for(Proposition p:propositions){
             orders.add(orderRepository.getOne(p.getOrder().getId()));

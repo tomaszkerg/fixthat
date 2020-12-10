@@ -14,6 +14,7 @@ public class FinishedOrderDto {
     private String name;
     private String device;
     private String description;
+    private Double price;
     private LocalDateTime postDate;
     private LocalDateTime fixDate;
     private String fixer;

@@ -11,6 +11,7 @@ public class FinishedOrderMapper {
                 .id(order.getId())
                 .name(order.getName())
                 .description(order.getDescription())
+                .price(proposition.getPrice())
                 .device(order.getDevice().getModel())
                 .fixDate(proposition.getFinishTime())
                 .postDate(order.getPostTime())

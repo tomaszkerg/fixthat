@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,7 +67,11 @@ public class UserController {
     }
 
     @PostMapping("/editdetails")
-    public String submitDetails(UserDetailsDto userDetailsDto){
+    public String submitDetails(@Valid UserDetailsDto userDetailsDto, BindingResult result, Model model){
+        if(result.hasErrors()){
+            model.addAttribute("userDetails",userDetailsDto);
+            return "user/editdetails";
+        }
         userDetailsService.saveDetails(userDetailsDto);
         return "redirect:/details";
     }

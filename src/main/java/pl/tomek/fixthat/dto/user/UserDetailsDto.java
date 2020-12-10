@@ -10,6 +10,7 @@ public class UserDetailsDto {
     private Long id;
     private String firstName;
     private String lastName;
+    private String pesel;
     private String city;
     private String address;
     private boolean newsLetter;

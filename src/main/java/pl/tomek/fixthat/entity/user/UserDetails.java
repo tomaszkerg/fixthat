@@ -1,6 +1,7 @@
 package pl.tomek.fixthat.entity.user;
 
 import lombok.*;
+import org.hibernate.validator.constraints.pl.PESEL;
 import pl.tomek.fixthat.entity.EntityModel;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class UserDetails implements EntityModel {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "pesel")
+    @PESEL
     private String pesel;
     private String city;
 

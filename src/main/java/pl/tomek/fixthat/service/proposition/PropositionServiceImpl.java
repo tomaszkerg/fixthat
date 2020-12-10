@@ -53,6 +53,7 @@ public class PropositionServiceImpl implements PropositionService{
         proposition.setUser(userRepository.getByUsername(ContextService.getUsername()));
         Order order = orderRepository.getOne(propositionDto.getOrderId());
         proposition.setOrder(order);
+        proposition.setActive(true);
         if(propositionRepository.findAllByOrder_Id(propositionDto.getOrderId()).size()>3){
             sendMessageAboutFiveP(order.getUser());
             order.setActive(false);
@@ -90,7 +91,7 @@ public class PropositionServiceImpl implements PropositionService{
     public List<PropositionShowDto> findPropositionsForUser(String username) {
         log.info("getting propositions for user {}",username);
         return propositionRepository
-                .findAllByUserUsername(username)
+                .findAllByUserUsernameAndActiveTrue(username)
                 .stream()
                 .map(PropositionShowMapper::toDto)
                 .collect(Collectors.toList());
@@ -111,6 +112,8 @@ public class PropositionServiceImpl implements PropositionService{
     @Transactional
     public void choosePropositionForOrder(Long id) {
         Proposition proposition = propositionRepository.getOne(id);
+        proposition.setActive(false);
+        propositionRepository.save(proposition);
         Order order = proposition.getOrder();
         Long orderId = order.getId();
         String currentUser = ContextService.getUsername();

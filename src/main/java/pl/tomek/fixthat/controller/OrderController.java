@@ -131,5 +131,11 @@ public class OrderController {
         return "order/finishedOrders";
     }
 
+    @GetMapping("/inrepair")
+    public String inRepair(Model model){
+        model.addAttribute("orders",orderService.inRepairOrders());
+        return "order/inRepair";
+    }
+
 
 }
