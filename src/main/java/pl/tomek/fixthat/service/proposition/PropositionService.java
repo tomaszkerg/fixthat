@@ -20,4 +20,5 @@ public interface PropositionService {
     void sendMessageAboutBeingChosen(User user);
     void sendMessageTryingToManageDifferentUserOrder(User user,Long orderId);
     void choosePropositionForOrder(Long id);
+
 }

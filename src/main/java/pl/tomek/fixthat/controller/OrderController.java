@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,8 +96,11 @@ public class OrderController {
         return "order/submit";
     }
     @PostMapping("orders/delete")
-    public String submitDelete(@RequestParam(name = "decision") Long id){
-
+    public String submitDelete(@RequestParam(name = "decision") Long id, Authentication authentication, BindingResult result){
+        if(!orderService.checkIfOrderIsForUser(id,authentication.getName())){
+            result.rejectValue("order",null,"nie możesz usunąć czyjegoś zlecenia");
+        }
+        if(result.hasErrors()) return "redirect:/myorders";
         orderService.deleteOrderById(id);
         return "redirect:/myorders";
     }
@@ -109,7 +113,10 @@ public class OrderController {
     }
 
     @PostMapping("/editorder")
-    public String submitEdition(Model model, @Valid OrderDto orderDto, BindingResult result){
+    public String submitEdition(Model model, @Valid OrderDto orderDto, BindingResult result, Authentication authentication){
+        if(!orderService.checkIfOrderIsForUser(orderDto.getId(),authentication.getName())){
+            result.rejectValue("order",null,"nie możesz edytować czyjegos zlecenia");
+        }
         if(result.hasErrors()){
             model.addAttribute("order",orderDto);
             return "order/addorder";

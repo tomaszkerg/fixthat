@@ -23,4 +23,5 @@ public interface OrderService {
     List<OrderShowAllDto> findAllOrdersForUserProposition();
     OrderDto getOrderDto(Long id);
     List<FinishedOrderDto> findAllFinishedForUser();
+    boolean checkIfOrderIsActive(Long id);
 }

@@ -11,7 +11,7 @@ public class PropositionDto {
     private Long id;
     @NotNull
     private double price;
-    private String userEmail;
+    private String username;
     private Long orderId;
     private int days;
 }

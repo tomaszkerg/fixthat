@@ -2,6 +2,7 @@ package pl.tomek.fixthat.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,14 +41,17 @@ public class PropositionController {
 
     @PostMapping("/orders/{id}/add")
     public String submitProposition(@PathVariable Long id, @Valid PropositionDto propositionDto,
-                                    @CurrentSecurityContext(expression="authentication.name")String email,
+                                    @CurrentSecurityContext(expression="authentication.name")String username,
                                     BindingResult result, Model model){
+        if(orderService.checkIfOrderIsForUser(id,username)) {
+            return "redirect:/myorders";
+        }
         if(result.hasErrors()){
             model.addAttribute("proposition",propositionDto);
             model.addAttribute("order",id);
             return "order/addorder";
         }
-        propositionDto.setUserEmail(email);
+        propositionDto.setUsername(username);
         propositionDto.setOrderId(id);
         propositionService.saveProposition(propositionDto);
         return "redirect:/myorders";
@@ -65,14 +69,21 @@ public class PropositionController {
     }
 
     @GetMapping("/propositions/{id}")
-    public String propositionsForOrder(@PathVariable Long id,Model model){
+    public String propositionsForOrder(@PathVariable Long id, Model model, Authentication authentication){
+        if(!orderService.checkIfOrderIsForUser(id,authentication.getName())) return "redirect:/myorders";
         model.addAttribute("propositions",propositionService.findAllPropositionForOrder(id));
         return "proposition/propositions";
     }
     @PostMapping("/propositions/choose")
     public String chooseProposition(@RequestParam(name = "pId") Long id){
         propositionService.choosePropositionForOrder(id);
-        return "order/getsendForm";
+        return "order/finishedOrders";
+    }
+
+    @GetMapping("/mypropositions/remove")
+    public String removeProposition(@RequestParam(name = "pId")Long id){
+        propositionService.deletePropositionById(id);
+        return "redirect:/mypropositions";
     }
 //    @GetMapping("/mypropositions/{id}")
 //    public String propositionForOrder(){

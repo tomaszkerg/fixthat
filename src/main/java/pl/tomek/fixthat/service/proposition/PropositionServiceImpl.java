@@ -70,7 +70,10 @@ public class PropositionServiceImpl implements PropositionService{
 
     @Override
     public boolean deletePropositionById(Long id) {
-        propositionRepository.deleteById(id);
+        String currentUser = ContextService.getUsername();
+        if(propositionRepository.existsById(id)){
+            if(propositionRepository.getOne(id).getUser().getUsername().equals(currentUser)) propositionRepository.deleteById(id);
+        }
         return !propositionRepository.existsById(id);
     }
 

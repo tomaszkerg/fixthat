@@ -116,6 +116,14 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    public boolean checkIfOrderIsActive(Long id) {
+        return orderRepository.findById(id).orElseThrow(()->{
+            throw new OrderNotFoundException();
+        }).isActive();
+    }
+
+
+    @Override
     public List<OrderShowAllDto> findAllOrdersForUser(String username) {
         return orderRepository
                 .findAllByUserUsernameAndActiveTrue(username)

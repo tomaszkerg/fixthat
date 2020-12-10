@@ -75,8 +75,8 @@
                                     <td th:text="*{p.price}"></td>
                                     <td>
                                         <a th:href="@{|/orders/${p.orderId}|}" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">Pokaż Zlecenie</a>
-                                        <a th:href="@{/mypropositions/remove}" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">Usuń</a>
-                                    </td>
+                                        <form th:action="@{/mypropositions/remove}" method="post">
+                                            <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" th:name="pId" th:value="*{p.id}">Usuń</button></form>                                    </td>
                                 </tr>
                                 </tbody>
                             </table>

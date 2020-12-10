@@ -54,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/")
+                .loginPage("/login")
                 .permitAll()
                 .defaultSuccessUrl("/orders")
                 .and()
@@ -67,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .disable()
                 .oauth2Login()
-                .loginPage("/")
+                .loginPage("/login")
                 .defaultSuccessUrl("/orders", true)
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService());
